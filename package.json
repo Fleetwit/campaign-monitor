@@ -1,0 +1,19 @@
+{
+  "name": "campaign-monitor",
+  "version": "1.0.0",
+  "description": "Campaign Monitor API wrapper by FleetWit",
+  "main": "campaign-monitor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fleetwit/campaign-monitor.git"
+  },
+  "author": "Julien Loutre, FleetWit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Fleetwit/campaign-monitor/issues"
+  },
+  "homepage": "https://github.com/Fleetwit/campaign-monitor#readme"
+}
