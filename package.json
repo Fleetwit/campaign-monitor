@@ -1,6 +1,6 @@
 {
   "name": "campaign-monitor",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Campaign Monitor API wrapper by FleetWit",
   "main": "campaign-monitor.js",
   "scripts": {
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Fleetwit/campaign-monitor/issues"
   },
-  "homepage": "https://github.com/Fleetwit/campaign-monitor#readme"
+  "homepage": "https://github.com/Fleetwit/campaign-monitor#readme",
+  "dependencies": {
+    "request": "^2.79.0",
+    "underscore": "^1.8.3"
+  }
 }
