@@ -2,10 +2,12 @@
 
 /*
 
-	node test.js -apikey XXXXXXXXXXXXX
+node test.js -apikey XXXXXXXXXXXXX -clientid XXXXXXXXXXXXX
 
 */
 
+var _			= require('underscore');
+var pstack		= require('pstack');
 
 function processArgs() {
 	var i;
@@ -43,20 +45,92 @@ var mail	= new cm({
 	client:		'default'	// Or use a client ID
 });
 
-mail.lists().create({}, function(response) {
-	mail.log("lists.create", "response", response);
+mail.subscribers(args.listid).update({
+	"EmailAddress": "changed_address@example.com",
+	"Name": "Changed Name",
+	"CustomFields": [
+	{
+		"Key": "website",
+		"Value": "http://example.com"
+	},
+	{
+		"Key": "interests",
+		"Value": "magic"
+	},
+	{
+		"Key": "interests",
+		"Value": "dungeons and dragons"
+	},
+	{
+		"Key": "age",
+		"Value": "",
+		"Clear": true
+	}
+	],
+	"Resubscribe": true,
+	"RestartSubscriptionBasedAutoresponders": true
+}, function(email) {
+	mail.log("subscribers", "add", email);
 });
 
+
+/*
+mail.lists().all(function(response) {
+_.each(response, function(list) {
+mail.log("list each", "response", list);
+
+var stack	= new pstack();
+var buffer	= {};
+
+stack.add(function(done) {
+mail.list(list.ListID).get(function(data) {
+mail.log("list", "get", data);
+done();
+});
+});
+
+stack.add(function(done) {
+mail.list(list.ListID).stats(function(data) {
+mail.log("list", "stats", data);
+done();
+});
+});
+
+stack.add(function(done) {
+mail.list(list.ListID).customFields(function(data) {
+mail.log("list", "customFields", data);
+done();
+});
+});
+
+stack.start(function() {
+
+});
+});
+});
+*/
+
+/*
+mail.lists().create({
+"Title": "FleetWit Players",
+"UnsubscribePage": "http://www.fleetwit.com/unsubscribe",
+"UnsubscribeSetting": "AllClientLists",	// Or OnlyThisList
+"ConfirmedOptIn": false,
+"ConfirmationSuccessPage": "http://www.fleetwit.com/welcome"
+}, function(response) {
+mail.log("lists.create", "response:", response);
+});
+*/
 /*
 mail.useClient('default', function(clientId) {
-	mail.log("useClient", "clientId", clientId);
+mail.log("useClient", "clientId", clientId);
 });
 */
 
 /*
 mail.GET({
-	endpoint:	'clients.json'
+endpoint:	'clients/lists.json'
 }, function(response) {
-	mail.log("clients.json", "response", response);
+mail.log("lists.json", "response", response);
 });
 */

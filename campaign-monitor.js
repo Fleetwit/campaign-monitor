@@ -15,10 +15,12 @@ var cm = function(options) {
 	
 	// API Import
 	this.importAPI({
-		lists:	'./API/lists'
+		list:		'./API/list',
+		lists:		'./API/lists',
+		subscribers:'./API/subscribers'
 	});
 	
-	this.log("Init", "options",this.options);
+	//this.log("Init", "options",this.options);
 };
 
 // Importing the API
@@ -28,7 +30,9 @@ cm.prototype.importAPI = function(conf) {
 		var api	= require(v);
 		
 		scope[k]	= function() {
-			return new api(scope);
+			var args 	= Array.prototype.slice.call(arguments);
+			args.splice(0,0,scope);
+			return new api(args);
 		};
 	});
 }
@@ -68,7 +72,7 @@ cm.prototype.GET = function(options, callback) {
 		}
 	};
 	
-	this.log("GET", "obj", obj);
+	//this.log("GET", "obj", obj);
 	
 	request(obj, function(error, response, body) {
 		callback(JSON.parse(body), response.statusCode);
@@ -93,7 +97,38 @@ cm.prototype.POST = function(options, callback) {
 		}
 	};
 	
-	this.log("POST", "obj", obj);
+	//this.log("POST", "obj", obj);
+	
+	request(obj, function(error, response, body) {
+		var output;
+		try {
+			output	= JSON.parse(body);
+		} catch (e) {
+			output	= body;
+		}
+		callback(output, response.statusCode);
+		return false;
+	});
+	
+	return this;
+}
+
+
+// POST method on any api endpoint. Executes an authenticated call.
+cm.prototype.PUT = function(options, callback) {
+	var scope = this;
+	options.data = _.extend({}, options.data);
+	
+	var obj = {
+		url:	this.options.url+options.endpoint,
+		method: "PUT",
+		json:	options.data,
+		headers:	{
+			'Authorization':	'Basic '+new Buffer(this.options.apikey+':x').toString('base64')
+		}
+	};
+	
+	//this.log("POST", "obj", obj);
 	
 	request(obj, function(error, response, body) {
 		var output;

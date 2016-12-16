@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Fleetwit/campaign-monitor#readme",
   "dependencies": {
+    "pstack": "^0.1.4",
     "request": "^2.79.0",
     "underscore": "^1.8.3"
   }

@@ -1,8 +1,8 @@
 
 var _			= require('underscore');
 
-var lists	= function(cm) {
-	this.cm	= cm;
+var lists	= function(args) {
+	this.cm		= args[0];
 };
 
 lists.prototype.create = function(options, callback) {
@@ -34,7 +34,7 @@ lists.prototype.create = function(options, callback) {
 	});
 }
 
-lists.prototype.get = function(listId, callback) {
+lists.prototype.all = function(callback) {
 	var scope = this;
 	
 	if (!callback) {
@@ -45,8 +45,7 @@ lists.prototype.get = function(listId, callback) {
 	this.cm.useClient(this.cm.options.client, function(clientId) {
 		
 		scope.cm.GET({
-			endpoint:	'lists/'+clientId+'.json',
-			data:		options
+			endpoint:	'clients/'+clientId+'/lists.json'
 		}, function(response, code) {
 			
 			callback(response);	// List data or error object {Code:xxx, Message: '...'}
