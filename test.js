@@ -45,34 +45,101 @@ var mail	= new cm({
 	client:		'default'	// Or use a client ID
 });
 
-mail.subscribers(args.listid).update({
-	"EmailAddress": "changed_address@example.com",
-	"Name": "Changed Name",
-	"CustomFields": [
-	{
-		"Key": "website",
-		"Value": "http://example.com"
-	},
-	{
-		"Key": "interests",
-		"Value": "magic"
-	},
-	{
-		"Key": "interests",
-		"Value": "dungeons and dragons"
-	},
-	{
-		"Key": "age",
-		"Value": "",
-		"Clear": true
-	}
-	],
-	"Resubscribe": true,
-	"RestartSubscriptionBasedAutoresponders": true
-}, function(email) {
-	mail.log("subscribers", "add", email);
+var options	= _.map(_.range(1,500), function(item) {
+	return 'race-'+item;
 });
 
+
+mail.transactional().templates(function(data) {
+	mail.log("transactional", "templates", data);
+});
+
+/*
+mail.list(args.listid).customFields(function(data) {
+	mail.log("list", "customFields", data);
+});
+*/
+
+/*
+mail.list(args.listid).replaceCustomFieldOptions('list_blah', options,function(data) {
+	mail.log("list", "replaceCustomFieldOptions", data);
+});
+*/
+
+/*
+mail.list(args.listid).createCustomField({
+	"FieldName": "list_test",
+	"DataType": "MultiSelectMany",
+	"Options": options
+},function(data) {
+	mail.log("list", "createCustomFields", data);
+});
+
+*/
+/*
+mail.subscribers(args.listid).add({
+	name:	'Julien Loutre',
+	email:	'julien1@fleetwit.com',
+	fields:	{
+		hello:	'world'
+	},
+	restartAutoresponder:	true,
+	resubscribe:	true
+}, function(email) {
+	mail.log("subscribers", "add", email);
+	
+	mail.subscribers(args.listid).get('julien1@fleetwit.com', function(response) {
+		mail.log("subscribers", "get", response);
+	});
+});
+*/
+/*
+mail.subscribers(args.listid).update('julien1@fleetwit.com', {
+	name:		'Julien L.',
+	firstname:	'Julien',
+	lastname:	'Loutre',
+	fields:	{
+		$add: {
+			played:			26,
+			purchases:		5,
+			last_played:	new Date().toISOString()
+		},
+		$remove: {
+			credits:	true
+		}
+	},
+}, function(response) {
+	mail.log("subscribers", "update", response);
+	
+	mail.subscribers(args.listid).get('julien1@fleetwit.com', function(response) {
+		mail.log("subscribers", "get", response);
+	});
+});
+*/
+
+/*mail.subscribers(args.listid).get('julien@fleetwit2.com', function(response) {
+	mail.log("subscribers", "get", response);
+});*/
+/*
+mail.subscribers(args.listid)._update('julien@fleetwit.com',{
+	"EmailAddress": "julien@fleetwit2.com",
+	"Name": "Lex Luthor",
+	"CustomFields": [{
+			"Key": "website",
+			"Value": "http://example.com"
+		},
+		{
+			"Key": "interests",
+			"Value": "magic"
+		},
+		{
+			"Key": "interests",
+			"Value": "dungeons and dragons"
+	}]
+}, function(email) {
+	mail.log("subscribers", "update", email);
+});
+*/
 
 /*
 mail.lists().all(function(response) {

@@ -17,7 +17,8 @@ var cm = function(options) {
 	this.importAPI({
 		list:		'./API/list',
 		lists:		'./API/lists',
-		subscribers:'./API/subscribers'
+		subscribers:'./API/subscribers',
+		transactional:'./API/transactional'
 	});
 	
 	//this.log("Init", "options",this.options);

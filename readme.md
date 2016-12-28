@@ -61,13 +61,41 @@ Select the list using `mail.list(XXXXXXX)` where XXXXXXX is the list ID.
 		mail.log("list.customFields", "response:", response);
 	});
 
+### Create a custom field ###
+
+	mail.list(XXXXXXX).createCustomField({
+		"FieldName": "list_test",
+		"DataType": "MultiSelectMany",
+		"Options": ["hello","world"]
+	},function(data) {
+		mail.log("list", "createCustomFields", data);
+	});
+
+### Rename a custom field ###
+
+	mail.list(XXXXXXX).renameCustomField('old name', 'new name', function(data) {
+		mail.log("list", "renameCustomField", data);
+	});
+
+### Add custom field options ###
+
+	mail.list(XXXXXXX).updateCustomFieldOptions('field name', ["option 1", "option 2", ...] ,function(data) {
+		mail.log("list", "updateCustomFieldOptions", data);
+	});
+
+### Replace custom field options ###
+
+	mail.list(XXXXXXX).replaceCustomFieldOptions('field name', ["option 1", "option 2", ...] ,function(data) {
+		mail.log("list", "replaceCustomFieldOptions", data);
+	});
+
 
 ## Subscribers ##
 Select the list using `mail.subscribers(XXXXXXX)` where XXXXXXX is the list ID.
 
-### Add a subscriber ###
+### Add a subscriber (API implementation) ###
 	
-	mail.subscribers(args.listid).add({
+	mail.subscribers(args.listid)._add({
 		"EmailAddress": "julien@fleetwit.com",
 		"Name": "Julien Loutre",
 		"CustomFields": [{
@@ -80,10 +108,24 @@ Select the list using `mail.subscribers(XXXXXXX)` where XXXXXXX is the list ID.
 		mail.log("subscribers", "add", email);
 	});
 
+### Add a subscriber (Easier params) ###
+	
+	mail.subscribers(args.listid).add({
+		name:	'Julien Loutre',
+		email:	'julien@fleetwit.com',
+		fields:	{
+			hello:	'world'
+		},
+		restartAutoresponder:	true,
+		resubscribe:	true
+	}, function(email) {
+		mail.log("subscribers", "add", email);
+	});
+
 
 ### Update a subscriber ###
 	
-	mail.subscribers(args.listid).update({
+	mail.subscribers(args.listid)._update("current_email@example.com",{
 		"EmailAddress": "changed_address@example.com",
 		"Name": "Changed Name",
 		"CustomFields": [
@@ -109,4 +151,14 @@ Select the list using `mail.subscribers(XXXXXXX)` where XXXXXXX is the list ID.
 		"RestartSubscriptionBasedAutoresponders": true
 	}, function(email) {
 		mail.log("subscribers", "add", email);
+	});
+
+
+## Transactional ##
+
+
+### List the transactional templates ###
+	
+	mail.transactional().templates(function(data) {
+		mail.log("transactional", "templates", data);
 	});
